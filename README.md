@@ -16,7 +16,7 @@ Otherwise these entries are written to the end of the output file.
 ## Example
 Run
 ```
-python bib_cleanup.py test.bib out.bib
+python bib_cleanup.py --input test.bib --output out.bib
 ```
 
 
