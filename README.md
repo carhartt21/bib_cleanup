@@ -1,6 +1,6 @@
 # bib_cleanup
 
-Reads the titles from all entries in a bibtex file and replaces them with the corresponding _dblp_ entries in condesed form.
+Reads all entries in a bibtex file and uses the titles to replace them with the corresponding _dblp_ entries in condensed form.
 
 ## Usage
 ```
