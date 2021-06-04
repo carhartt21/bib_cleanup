@@ -4,12 +4,12 @@ Reads all entries in a bibtex file and uses the titles to replace them with the 
 Alternatively the bib file can be created from a txt file where each line contains the publication title.
 
 ## Usage
-Install requirements
+### Install requirements
 ```
 pip install -r requirements.txt
 ```
 
-Bib cleanup
+### Bib cleanup
 ```
 python bib_cleanup.py --input <input_file> [--output <output_file> --failed <file for failed entries> --long Bool]
 ```
@@ -19,7 +19,7 @@ Otherwise these entries are written to the end of the output file.
 By default the condensed version of the _dblp_ entry is used. 
 With '--long True' the output can be changed to the longer standard version.  
 
-Txt lookup
+### Txt lookup
 ```
 python txt_lookup.py --input <input_file> --output <output_file> [--failed <file for failed entries> --long Bool]
 ```
