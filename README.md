@@ -30,7 +30,8 @@ Otherwise the options are similar to 'bib_cleanup'.
 Run
 ```
 python bib_cleanup.py --input test.bib --output out.bib --failed failed.bib
-
+```
+```
 python txt_lookup.py --input test.txt --output out.bib --failed failed.txt --long True
 ```
 
