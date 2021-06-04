@@ -27,7 +27,6 @@ Requires an input and an output file.
 Otherwise the options are similar to 'bib_cleanup'.
 
 ## Example
-Run
 ```
 python bib_cleanup.py --input test.bib --output out.bib --failed failed.bib
 ```
