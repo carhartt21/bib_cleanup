@@ -17,7 +17,7 @@ If no output file is provided the input file will be overwritten.
 The second output file can be used to store entries where the dblp lookup failed 
 Otherwise these entries are written to the end of the output file.
 By default the condensed version of the _dblp_ entry is used. 
-With '--long True' the output can be changed to the longer standard version.  
+With `--long True` the output can be changed to the longer standard version.  
 
 ### Txt lookup
 ```
