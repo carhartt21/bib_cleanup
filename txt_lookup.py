@@ -8,7 +8,6 @@ from tqdm import tqdm
 import utils
 
 
-
 if __name__ == '__main__':
     log_file = 'info.log'
     logging.basicConfig(
