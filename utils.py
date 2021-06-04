@@ -4,7 +4,7 @@ import logging
 from bs4 import BeautifulSoup
 from numpy.lib.shape_base import tile
 from requests import get
-from re import sub
+from re import sub, UNICODE
 
 DBLP_PREFIX = "https://dblp.org/rec/"
 DBLP_PREFIX_SIZE = len(DBLP_PREFIX)
@@ -13,7 +13,7 @@ DBLP_API = "https://dblp.org/search/publ/api?"
 
 def query_db(title, num_entries=300):
     query = '+'.join(title.lower().split())
-    # logging.info('Query: {}'.format(query))
+    logging.info('Query: {}'.format(query))
     response = get(DBLP_API + 'q=' + query + '&h=' + str(num_entries))
     # logging.info('Response: {}'.format(resp.text))
     return BeautifulSoup(response.content, 'lxml')
@@ -23,16 +23,16 @@ def normalize_title(title):
     # change to lowercase and remove all non alphnumeric characters
     title = title.lower()
     title = sub(': ', ' - ', title)
-    title = sub('textendash', '-', title)
     title = sub('\n', ' ', title)
-    title = sub('[^0-9a-zA-Z]+', '', title)
+    title = sub(r'[^0-9a-zA-Z]+', '', title)
     return title
 
 
 def normalize_bib_title(title):
-    # remove latex code
-    title = sub(r'’\'', ' ', title)
-    title = sub(r'[{}\\\"^,]', "", title)
+    # remove latex code and encoding problems
+    title = sub(r'[’\'–]', ' ', title)
+    title = sub(r'[{}\\\"^,]', '', title)
+    title = sub('textendash', '', title)
     title = sub(r'\$.*?\$', '', title)
     return title
 

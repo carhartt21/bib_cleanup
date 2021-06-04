@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import logging
 import bibtexparser
-from argparse import ArgumentParser
+from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
 from tqdm import tqdm
 
 # own import
@@ -16,22 +16,31 @@ if __name__ == '__main__':
         filemode='w',
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
     )
-    _parser = ArgumentParser(description='Parameters')
-    _parser.add_argument('--input', type=str, help='Input txt file')
-    _parser.add_argument('--output', type=str, help='Output bib file')
-    _parser.add_argument('--failed', type=str, default=None, help='File for failed entries')
-    _parser.add_argument('--long', type=bool, default=None, help='Use standard version of dblp entries')
+    _parser = ArgumentParser(description='Parameters', formatter_class=ArgumentDefaultsHelpFormatter)
+    _parser.add_argument('input', metavar='<input file>', type=str, help='Input txt file')
+    _parser.add_argument('--output', metavar='<output file>', type=str, help='Output bib file')
+    _parser.add_argument(
+        '--failed',
+        type=str,
+        metavar='<additional output file>',
+        default=None,
+        help='File for failed entries'
+    )
+    _parser.add_argument('--long', type=bool, default=False, help='Use standard version of dblp entries')
 
     args = _parser.parse_args()
 
     in_txt = args.input
-    out_bib = args.output
+    if args.output:
+        out_bib = args.output
+    else:
+        out_bib = in_txt
     failed_txt = args.failed
 
     pub_titles = set()
 
-    print("Reading bibliography")
-    with open(in_txt, encoding='utf-8', errors='replace') as input_file:
+    print('Reading titles from {}'.format(in_txt))
+    with open(in_txt, encoding='utf-8', errors='ignore') as input_file:
         for line in input_file:
             pub_titles.add(line)
 
@@ -42,14 +51,13 @@ if __name__ == '__main__':
     failed_entries = []
     bib_output = []
     entries_updated = 0
-    for id in tqdm(pub_titles, desc='Processing', ascii=True):
-        title = pub_titles[id]
+    for title in tqdm(pub_titles, desc='Processing', ascii=True):
         num_read += 1
         bib_item = utils.dblp_lookup(title, args.long)
         if bib_item:
             bib_output.append(bib_item)
         else:
-            failed_entries.append(pub_titles)
+            failed_entries.append(title)
             num_failed += 1
 
     writer = bibtexparser.bwriter.BibTexWriter(write_common_strings=True)
@@ -57,21 +65,21 @@ if __name__ == '__main__':
     with open(out_bib, 'w') as bib_file:
         for item in bib_output:
             bib_file.write(writer.write(item))
-        if not failed_txt:
-            bib_file.write('----------------------\n\n')
-            bib_file.write('Publication titles where the update failed:')
-            bib_file.write('\n\n----------------------\n\n')
+        if not failed_txt and failed_entries:
+            bib_file.write('''%----------------------
+% Failed publication titles:
+%----------------------\n\n''')
             for entry in failed_entries:
-                bib_file.write(item + '\n\n')
-        else:
+                bib_file.write(entry + '\n\n')
+        elif failed_entries:
             with open(failed_txt, 'w') as f_file:
                 for entry in failed_entries:
-                    f_file.write(item + '\n\n')
+                    f_file.write(entry + '\n\n')
 
-    print('-----')
-    print('Completed')
-    print('{} Updated, {} Updates failed'.format(num_read - num_failed, num_failed))
-    print('Bibtex saved to {}'.format(out_bib))
+    print('''-----
+Completed
+{} entries updated | {} updates failed
+Bibtex saved to: {}'''.format(num_read - num_failed, num_failed, out_bib))
     if failed_txt:
-        print('Failed entries written to {}'.format('failed_'))
-    print('For further information see {}'.format(log_file))
+        print('Failed entries written to: {}'.format(failed_txt))
+    print('For further information see: {}'.format(log_file))

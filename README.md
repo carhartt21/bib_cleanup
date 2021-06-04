@@ -11,7 +11,7 @@ pip install -r requirements.txt
 
 ### Bib cleanup
 ```
-python bib_cleanup.py --input <input_file> [--output <output_file> --failed <file for failed entries> --long <bool>]
+python bib_cleanup.py <input_file> [--output <output_file> --failed <file for failed entries> --long <bool>]
 ```
 If no `--output` is provided the input file will be overwritten. 
 The second output `--failed` file can be used to store entries where the dblp lookup failed.
@@ -21,10 +21,9 @@ With `--long True` the output can be changed to the longer standard version.
 
 ### Txt lookup
 ```
-python txt_lookup.py --input <input_file> --output <output_file> [--failed <file for failed entries> --long <bool>]
-```
-Requires an input and an output file. 
-Otherwise the options are similar to 'bib_cleanup'.
+python txt_lookup.py <input_file> [--output <output_file> --failed <file for failed entries> --long <bool>]
+``` 
+Uses the same options as 'bib_cleanup'.
 
 ## Example
 ```
