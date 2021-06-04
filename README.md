@@ -1,6 +1,6 @@
 # bib_cleanup
 
-Reads the titles from all entries in a bibtex file and replaces them with the corresponding _dblp_ entries in condesed form.
+Reads all entries in a bibtex file and uses the titles to replace them with the corresponding _dblp_ entries in condensed form.
 
 ## Usage
 ```
@@ -16,7 +16,7 @@ Otherwise these entries are written to the end of the output file.
 ## Example
 Run
 ```
-python bib_cleanup.py test.bib out.bib
+python bib_cleanup.py --input test.bib --output out.bib
 ```
 
 
