@@ -23,7 +23,7 @@ With `--long True` the output can be changed to the longer standard version.
 ```
 python txt_lookup.py <input_file> [--output <output_file> --failed <file for failed entries> --long <bool>]
 ``` 
-Uses the same options as 'bib_cleanup'.
+Uses the same options as `bib_cleanup.py`.
 
 ## Example
 ```
